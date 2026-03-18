@@ -1,4 +1,4 @@
-Day 20 & 21 – Snake Game
+# Day 20 & 21 – Snake Game
 
 The iconic snake game built using the Turtle library.
 
