@@ -37,15 +37,12 @@ while len(guessed_states) < 50:
     if answer_state == "Exit":
         # save missed states in states_to_learn_csv.
         list_of_all_states = df.state.to_list()
-        list_states_to_learn = []
-        for state in list_of_all_states:
-            if state not in guessed_states:
-                list_states_to_learn.append(state)
-        df2 = pandas.DataFrame(list_states_to_learn)
+        list_of_states_to_learn = [state for state in list_of_all_states if state not in guessed_states]
+        df2 = pandas.DataFrame(list_of_states_to_learn)
         df2.to_csv("states_to_learn.csv", header=False, index=False)
         # show missed states in red
         name.color("red")
-        for state in list_states_to_learn:
+        for state in list_of_states_to_learn:
             write_state(state)
         break
     if not check_answer.empty:
