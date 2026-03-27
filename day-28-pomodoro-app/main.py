@@ -122,7 +122,7 @@ def count_down(sec):
     count = sec
     if count > 0:
         global timer
-        timer = window.after(1000, count_down, count -1)
+        timer = window.after(10, count_down, count -1)
     else:
         bring_to_front()
         sec = next_session()
