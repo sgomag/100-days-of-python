@@ -9,9 +9,9 @@ GREEN = "#379b46"
 LIGHT_GREEN = "#c2dcb3"
 YELLOW = "#f7f5dd"
 FONT_NAME = "Courier"
-WORK_MIN = 1
-SHORT_BREAK_MIN = 1
-LONG_BREAK_MIN = 1
+WORK_MIN = 25
+SHORT_BREAK_MIN = 5
+LONG_BREAK_MIN = 20
 reps = 0
 marks = ""
 pomodoros = ""
@@ -40,7 +40,8 @@ def bring_to_front():
 # ---------------------------- TIMER RESET ------------------------------- #
 def reset_timer():
     global timer
-    window.after_cancel(timer)
+    if timer is not None:
+        window.after_cancel(timer)
     canvas.itemconfig(timer_text, text="00:00")
     header.config(text="Pomodoro", fg=GREEN)
     button_start.config(text="Start")
@@ -59,18 +60,16 @@ def start_or_pause():
     global timer
     global reps
     if reps == 0: #Start
-        next_session()
+        sec = next_session()
+        count_down(sec)
         button_start.config(text="Pause")
-        print("start")
     elif timer is not None: #Pause
         window.after_cancel(timer)
         timer = None
         button_start.config(text="Resume")
-        print("pause")
     else: #Resume
         timer = window.after(100, count_down, count - 1)
         button_start.config(text="Pause")
-        print("resume")
 
 def next_session():
     global reps
@@ -82,21 +81,18 @@ def next_session():
     if reps % 8 == 0:
         tkinter.messagebox.showinfo(title="Break", message=f"Ready for a {LONG_BREAK_MIN} min. break?")
         background_color(LIGHT_GREEN)
-        #count_down(long_break_sec)
         header.config(fg=GREEN, text="Long break")
         return long_break_sec
 
     elif reps % 2 == 0:
         tkinter.messagebox.showinfo(title="Break", message=f"Ready for a {SHORT_BREAK_MIN} min. break?")
         background_color(LIGHT_GREEN)
-        #count_down(short_break_sec)
         header.config(fg=GREEN, text="Break")
         return short_break_sec
 
     else:
         if reps != 1:
             tkinter.messagebox.showinfo(title="Work", message=f"Ready to work for {WORK_MIN} min.?")
-        #count_down(work_sec)
         background_color(YELLOW)
         header.config(fg=RED, text="Work")
         return work_sec
@@ -118,11 +114,11 @@ def count_down(sec):
     count = sec
     if count > 0:
         global timer
-        timer = window.after(100, count_down, count -1)
+        timer = window.after(1000, count_down, count -1)
     else:
-        print(timer)
         bring_to_front()
-        next_session()
+        sec = next_session()
+        count_down(sec)
         if reps % 8 == 1:
             marks = ""
             checkmark.config(text=marks)
