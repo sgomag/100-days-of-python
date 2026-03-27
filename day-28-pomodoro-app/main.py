@@ -1,6 +1,8 @@
 from tkinter import *
 import tkinter.messagebox
 import math
+import sys
+import os
 
 # ---------------------------- CONSTANTS ------------------------------- #
 PINK = "#e2979c"
@@ -19,6 +21,12 @@ timer = None
 count = None
 
 # ---------------------------- BACKGROUND & WINDOW CHANGE ------------------------------- #
+def resource_path(relative_path):
+    try:
+        return os.path.join(sys._MEIPASS, relative_path)
+    except AttributeError:
+        return relative_path
+
 def background_color(color):
     canvas.config(bg=color)
     window.config(bg=color)
@@ -135,7 +143,7 @@ window.title("Pomodoro")
 window.config(padx=100, pady=50)
 
 canvas = Canvas(width=200 , height=224, highlightthickness=0)
-tomato_img = PhotoImage(file="tomato.png")
+tomato_img = PhotoImage(file=resource_path("tomato.png"))
 canvas.create_image(100,112, image=tomato_img)
 timer_text = canvas.create_text(103, 135, text="00:00", fill="white", font=(FONT_NAME, 26, "bold"))
 window.iconphoto(False, tomato_img)
