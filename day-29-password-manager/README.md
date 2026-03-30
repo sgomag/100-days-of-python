@@ -4,4 +4,4 @@ A Tkinter desktop app that generates secure passwords and saves them to a local 
 
 The main new thing here was auto-filling entry fields with a default username or a randomly generated password, and clearing them after saving.
 
-![Password Manager](screenshots/Screenshot 2026-03-30 093748.png)
+![Password Manager](screenshots/screenshot.png)
